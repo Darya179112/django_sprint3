@@ -10,13 +10,10 @@ def index(request):
         category__is_published=True,
         pub_date__lte=timezone.now()
     ).order_by('-pub_date')
-    
     # ИСПРАВЛЕНО: 10 → 5
     paginator = Paginator(post_list, 5)  # ← Измените эту строку
-    
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    
     context = {
         'page_obj': page_obj,
     }
@@ -43,12 +40,10 @@ def category_posts(request, category_slug):
         Category.objects.filter(is_published=True),
         slug=category_slug
     )
-    
     post_list = category.post_set.filter(
         is_published=True,
         pub_date__lte=timezone.now()
     ).order_by('-pub_date')
-    
     context = {
         'category': category,
         'post_list': post_list,
