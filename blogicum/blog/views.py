@@ -1,4 +1,3 @@
-# blog/views.py
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
 from django.utils import timezone
@@ -11,13 +10,14 @@ def index(request):
         category__is_published=True,
         pub_date__lte=timezone.now()
     ).order_by('-pub_date')
+    
     paginator = Paginator(post_list, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    # Изменено: добавляем post_list в контекст
+    
     context = {
         'page_obj': page_obj,
-        'post_list': page_obj.object_list,  # Добавлено
+        'post_list': page_obj,  # передаем page_obj как post_list
     }
     return render(request, 'blog/index.html', context)
 
@@ -42,17 +42,20 @@ def category_posts(request, category_slug):
         Category.objects.filter(is_published=True),
         slug=category_slug
     )
-    post_list = category.posts.filter(
+    
+    # ИСПРАВЛЕНО: используем post_set
+    post_list = category.post_set.filter(
         is_published=True,
         pub_date__lte=timezone.now()
     ).order_by('-pub_date')
+    
     paginator = Paginator(post_list, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    # Изменено: добавляем post_list в контекст
+    
     context = {
         'category': category,
         'page_obj': page_obj,
-        'post_list': page_obj.object_list,  # Добавлено
+        'post_list': page_obj,  # передаем page_obj как post_list
     }
     return render(request, 'blog/category.html', context)
