@@ -5,9 +5,12 @@
 {% block content %}
 <h1>Публикации в категории «{{ category.title }}»</h1>
 <p class="mb-5">{{ category.description }}</p>
-{% for post in page_obj %}  <!-- Изменено -->
+
+<!-- ВАЖНО: должен быть цикл по post_list -->
+{% for post in post_list %}
   <article class="mb-5">  
     {% include "includes/post_card.html" %}
   </article>   
 {% endfor %}
+
 {% endblock %}
