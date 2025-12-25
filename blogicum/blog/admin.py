@@ -48,4 +48,3 @@ class PostAdmin(admin.ModelAdmin):
     list_filter = ('is_published', 'category', 'pub_date')
     date_hierarchy = 'pub_date'
     ordering = ('-pub_date',)
-    
