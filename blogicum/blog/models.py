@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
-from django.utils import timezone
 
 
 User = get_user_model()
@@ -113,13 +112,12 @@ class Post(models.Model):
     def clean(self):
         if self.pub_date is None:
             raise ValidationError('Дата публикации обязательна')
-        
         if self.category_id and not Category.objects.filter(
             id=self.category_id, is_published=True
         ).exists():
             raise ValidationError('Категория должна быть опубликована')
-        
         if self.location_id and not Location.objects.filter(
             id=self.location_id, is_published=True
         ).exists():
             raise ValidationError('Местоположение должно быть опубликовано')
+        

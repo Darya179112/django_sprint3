@@ -13,7 +13,6 @@ def index(request):
         is_published=True,
         category__is_published=True
     ).order_by('-pub_date')[:5]
-    
     context = {'post_list': post_list}
     return render(request, 'blog/index.html', context)
 
@@ -50,7 +49,6 @@ def category_posts(request, category_slug):
         pub_date__lte=timezone.now(),
         is_published=True
     ).order_by('-pub_date')
-    
     context = {
         'category': category,
         'post_list': post_list
