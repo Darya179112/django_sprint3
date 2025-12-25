@@ -120,5 +120,3 @@ class Post(models.Model):
             id=self.location_id, is_published=True
         ).exists():
             raise ValidationError('Местоположение должно быть опубликовано')
-
-        
